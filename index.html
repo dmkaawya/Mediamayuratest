@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Mayura - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .dashboard {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #667eea;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-title h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            padding: 12px 30px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .filters {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .filter-item label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .filter-item select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .filter-item select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .videos-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-height: 400px;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .video-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-info h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .video-meta span {
+            font-size: 13px;
+            color: #666;
+            background: #e0e0e0;
+            padding: 5px 12px;
+            border-radius: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #666;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #999;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header-title h2 {
+                font-size: 22px;
+            }
+
+            .filters {
+                padding: 20px;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <div class="login-container" id="loginSection">
+            <div class="logo">
+                <h1>📚 Media Mayura</h1>
+                <p>Student Video Portal</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="error" id="loginError">Invalid username or password!</div>
+            </form>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="dashboard" id="dashboardSection">
+            <div class="header">
+                <div class="header-title">
+                    <h2>📚 Media Mayura</h2>
+                    <p>Browse your educational videos by year, month, and category</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-grid">
+                    <div class="filter-item">
+                        <label for="yearFilter">📅 Select Year</label>
+                        <select id="yearFilter" onchange="updateMonths()">
+                            <option value="">-- Choose Year --</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="monthFilter">📆 Select Month</label>
+                        <select id="monthFilter" onchange="loadVideos()" disabled>
+                            <option value="">-- Choose Month --</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="categoryFilter">🎓 Select Category</label>
+                        <select id="categoryFilter" onchange="loadVideos()">
+                            <option value="">All Categories</option>
+                            <option value="theory">Theory Classes</option>
+                            <option value="revision">Revision Classes</option>
+                            <option value="paper">Paper Classes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="videos-container">
+                <div id="videosContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample video data structure
+        const videoData = {
+            2024: {
+                months: 8,
+                data: {
+                    'January': {
+                        theory: [
+                            { id: 'dQw4w9WgXcQ', title: 'Introduction to Mathematics', duration: '45:00' },
+                            { id: 'dQw4w9WgXcQ', title: 'Basic Algebra Concepts', duration: '38:20' },
+                            { id: 'dQw4w9WgXcQ', title: 'Geometry Fundamentals', duration: '42:15' }
+                        ],
+                        revision: [
+                            { id: 'dQw4w9WgXcQ', title: 'Math Revision Week 1', duration: '30:00' },
+                            { id: 'dQw4w9WgXcQ', title: 'Quick Review Session', duration: '25:30' }
+                        ],
+                        paper: [
+                            { id: 'dQw4w9WgXcQ', title: 'Past Paper 2023 - Part 1', duration: '50:00' }
+                        ]
+                    },
+                    'February': {
+                        theory: [
+                            { id: 'dQw4w9WgXcQ', title: 'Advanced Calculus', duration: '48:00' },
+                            { id: 'dQw4w9WgXcQ', title: 'Trigonometry Basics', duration: '40:00' }
+                        ],
+                        revision: [
+                            { id: 'dQw4w9WgXcQ', title: 'February Revision', duration: '35:00' }
+                        ],
+                        paper: [
+                            { id: 'dQw4w9WgXcQ', title: 'Model Paper Discussion', duration: '55:00' }
+                        ]
+                    }
+                }
+            },
+            2025: {
+                months: 12,
+                data: {
+                    'January': {
+                        theory: [
+                            { id: 'dQw4w9WgXcQ', title: 'Physics - Motion & Forces', duration: '45:00' },
+                            { id: 'dQw4w9WgXcQ', title: 'Chemistry Bonding', duration: '40:00' }
+                        ],
+                        revision: [
+                            { id: 'dQw4w9WgXcQ', title: 'Science Revision', duration: '32:00' }
+                        ],
+                        paper: [
+                            { id: 'dQw4w9WgXcQ', title: '2024 Paper Solutions', duration: '60:00' }
+                        ]
+                    }
+                }
+            },
+            2026: {
+                months: 8,
+                data: {
+                    'January': {
+                        theory: [
+                            { id: 'dQw4w9WgXcQ', title: 'Biology Cell Structure', duration: '43:00' }
+                        ],
+                        revision: [
+                            { id: 'dQw4w9WgXcQ', title: 'Bio Quick Revision', duration: '28:00' }
+                        ],
+                        paper: [
+                            { id: 'dQw4w9WgXcQ', title: 'Practice Paper 1', duration: '52:00' }
+                        ]
+                    }
+                }
+            }
+        };
+
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'admin' && password === 'admin') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        });
+
+        function logout() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('yearFilter').value = '';
+            document.getElementById('monthFilter').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('monthFilter').disabled = true;
+            document.getElementById('videosContent').innerHTML = '';
+        }
+
+        function updateMonths() {
+            const year = document.getElementById('yearFilter').value;
+            const monthFilter = document.getElementById('monthFilter');
+            
+            if (!year) {
+                monthFilter.disabled = true;
+                monthFilter.innerHTML = '<option value="">-- Choose Month --</option>';
+                document.getElementById('videosContent').innerHTML = '';
+                return;
+            }
+
+            monthFilter.disabled = false;
+            monthFilter.innerHTML = '<option value="">-- Choose Month --</option>';
+            
+            const numMonths = videoData[year].months;
+            for (let i = 0; i < numMonths; i++) {
+                const option = document.createElement('option');
+                option.value = monthNames[i];
+                option.textContent = monthNames[i];
+                monthFilter.appendChild(option);
+            }
+            
+            loadVideos();
+        }
+
+        function loadVideos() {
+            const year = document.getElementById('yearFilter').value;
+            const month = document.getElementById('monthFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            const contentDiv = document.getElementById('videosContent');
+
+            if (!year) {
+                contentDiv.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎬</div>
+                        <h3>Select a Year to Start</h3>
+                        <p>Choose a year from the dropdown above to view available videos</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (!month) {
+                contentDiv.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📅</div>
+                        <h3>Select a Month</h3>
+                        <p>Choose a month to see videos for ${year}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const monthData = videoData[year].data[month];
+            if (!monthData) {
+                contentDiv.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>No Videos Available</h3>
+                        <p>There are no videos for ${month} ${year}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let videos = [];
+            const categoryMap = {
+                'theory': 'Theory Classes',
+                'revision': 'Revision Classes',
+                'paper': 'Paper Classes'
+            };
+
+            if (category) {
+                if (monthData[category]) {
+                    videos = monthData[category].map(v => ({...v, category: categoryMap[category]}));
+                }
+            } else {
+                for (let cat in monthData) {
+                    videos = videos.concat(monthData[cat].map(v => ({...v, category: categoryMap[cat]})));
+                }
+            }
+
+            if (videos.length === 0) {
+                contentDiv.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>No Videos Found</h3>
+                        <p>No videos match your current filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            contentDiv.innerHTML = '<div class="videos-grid">' + videos.map(video => `
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe 
+                            src="https://www.youtube.com/embed/${video.id}" 
+                            allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        ></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>${video.title}</h3>
+                        <div class="video-meta">
+                            <span>📚 ${video.category}</span>
+                            <span>⏱️ ${video.duration}</span>
+                            <span>📅 ${month} ${year}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('') + '</div>';
+        }
+
+        // Initialize empty state
+        document.getElementById('videosContent').innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">🎬</div>
+                <h3>Welcome to Media Mayura</h3>
+                <p>Select a year, month, and category to start watching videos</p>
+            </div>
+        `;
+    </script>
+</body>
+</html>
